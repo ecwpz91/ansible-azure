@@ -2,4 +2,9 @@
 - name: Delete Azure Windows VMs
   hosts: localhost
   connection: local
+  gather_facts: false
   tasks:
+  - name: Get facts for one resource group including resources it contains
+    azure_rm_resourcegroup_info:
+      name: "{{ resource_group_name }}"
+      list_resources: yes
