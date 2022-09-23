@@ -1,0 +1,5 @@
+---
+- name: Delete Azure RHEL VMs
+  hosts: localhost
+  connection: local
+  tasks:
