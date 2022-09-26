@@ -8,6 +8,7 @@
     azure_rm_resourcegroup_info:
       name: "{{ resource_group_name }}"
       list_resources: yes
+    register: azure_facts
 
     # - name: Delete VM
     #   azure.azcollection.azure_rm_virtualmachine:
