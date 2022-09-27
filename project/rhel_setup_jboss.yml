@@ -10,6 +10,6 @@
       with_items:
       - unzip
       - java-17-openjdk
-      - libselinux-python
-      - libsemanage-python
+      - libselinux
+      - libsemanage
 
