@@ -11,7 +11,7 @@
         state: present
       with_items:
         - unzip
-        - java-17-openjdk
+        - java-1.8.0-openjdk
         - libselinux
         - libsemanage
         - firewalld
