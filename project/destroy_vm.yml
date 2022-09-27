@@ -10,8 +10,8 @@
       list_resources: yes
     register: azure_facts
 
-    - name: Delete VM
-      azure.azcollection.azure_rm_virtualmachine:
-        resource_group: "{{ resource_group_name }}"
-        name: "{{ vm_name }}"
-        state: absent
+  - name: Delete VM
+    azure.azcollection.azure_rm_virtualmachine:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ vm_name }}"
+      state: absent
