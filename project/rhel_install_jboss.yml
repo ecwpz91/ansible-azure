@@ -60,7 +60,7 @@
     - name: Create a systemd unit file for migration toolkit
       ansible.builtin.template:
         src: ./templates/jboss.service.j2
-        dest: /lib/systemd/system/jjboss.service
+        dest: /lib/systemd/system/jboss.service
 
     - name: Just force systemd to reread configs
       ansible.builtin.systemd:
