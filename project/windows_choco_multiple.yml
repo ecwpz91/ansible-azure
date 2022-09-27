@@ -1,23 +1,23 @@
 ---
-- name: Chocolatey install multiple
+- name: Chocolatey install multiple packages
   hosts: "{{ HOSTS | default('windows') }}"
   vars:
     choco_packages:
       - name: nodejs
       - name: python
   tasks:
-  - name: Install specific versions of packages sequentially
+  - name: Install specific packages
     win_chocolatey:
       name: "{{ item.name }}"
       state: latest
     loop: "{{ choco_packages }}"
 
-  - name: Check python version
+  - name: Check python package version
     win_command: python --version
     register: check_python_version
     changed_when: false
 
-  - name: Check nodejs version
+  - name: Check nodejs package version
     win_command: node --version
     register: check_node_version
     changed_when: false
