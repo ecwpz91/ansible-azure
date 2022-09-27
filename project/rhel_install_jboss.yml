@@ -54,20 +54,39 @@
         state: directory 
         recurse: yes
 
-    - name: Create a systemd unit file for migration toolkit
-      ansible.builtin.template:
-        src: ./templates/jboss.service.j2
-        dest: /lib/systemd/system/jboss.service
+    - name: Copy the init script
+      copy:
+        src: ./files/jboss-as-standalone.sh
+        dest: /etc/init.d/jboss
+        mode: 0755
+      become: true
+
+    # - name: Create a systemd unit file for migration toolkit
+    #   ansible.builtin.template:
+    #     src: ./templates/jboss.service.j2
+    #     dest: /lib/systemd/system/jboss.service
+
+
+    - name: Workaround for systemd bug
+      shell: service jboss start && chkconfig jboss on
+      become: true
+      ignore_errors: yes
+
+    - name: Enable JBoss to be started at boot
+      service:
+        name: jboss
+        enabled: yes
+        state: started
+
+    # - name: Make sure jboss service unit is running
+    #   ansible.builtin.systemd:
+    #     state: started
+    #     name: jboss.service
+    #     enabled: yes
 
     - name: Just force systemd to reread configs
       ansible.builtin.systemd:
         daemon_reload: yes
-
-    - name: Make sure jboss service unit is running
-      ansible.builtin.systemd:
-        state: started
-        name: jboss.service
-        enabled: yes
 
     - name: Start service firewalld, if not started
       ansible.builtin.service:
