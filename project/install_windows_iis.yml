@@ -1,40 +1,44 @@
 ---
 - name: Install IIS
   hosts: "{{ HOSTS | default('windows') }}"
+  gather_facts: false
   vars:
     iis_message: undef
 
   tasks:
-    - name: Get facts for one Public IP
-      azure_rm_publicipaddress_info:
-        resource_group: myResourceGroup
-        name: pip
-      register: publicipaddresses
+    - name: run win_ping
+      win_ping:
 
-    - name: set public ip address fact
-      set_fact: publicipaddress="{{ publicipaddresses | json_query('publicipaddresses[0].ip_address')}}"
+    # - name: Get facts for one Public IP
+    #   azure_rm_publicipaddress_info:
+    #     resource_group: myResourceGroup
+    #     name: pip
+    #   register: publicipaddresses
 
-    - name: wait for the WinRM port to come online
-      wait_for:
-        port: 5986
-        host: '{{ publicipaddress }}'
-        timeout: 600
+    # - name: set public ip address fact
+    #   set_fact: publicipaddress="{{ publicipaddresses | json_query('publicipaddresses[0].ip_address')}}"
 
-    - name: Install IIS
-      win_feature:
-        name: Web-Server
-        state: present
+    # - name: wait for the WinRM port to come online
+    #   wait_for:
+    #     port: 5986
+    #     host: '{{ publicipaddress }}'
+    #     timeout: 600
 
-    - name: Start IIS service
-      win_service:
-        name: W3Svc
-        state: started
+    # - name: Install IIS
+    #   win_feature:
+    #     name: Web-Server
+    #     state: present
 
-    - name: Create website index.html
-      win_copy:
-        content: "{{ iis_message }}"
-        dest: C:\Inetpub\wwwroot\index.html
+    # - name: Start IIS service
+    #   win_service:
+    #     name: W3Svc
+    #     state: started
 
-    - name: Show website address
-      debug:
-        msg: http://{{ ansible_host }}
+    # - name: Create website index.html
+    #   win_copy:
+    #     content: "{{ iis_message }}"
+    #     dest: C:\Inetpub\wwwroot\index.html
+
+    # - name: Show website address
+    #   debug:
+    #     msg: http://{{ ansible_host }}
