@@ -3,7 +3,6 @@
   hosts: "{{ HOSTS | default('windows') }}"
   vars:
     iis_message: undef
-
   tasks:
     - name: Install IIS
       win_feature:
