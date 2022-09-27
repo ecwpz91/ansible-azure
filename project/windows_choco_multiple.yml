@@ -1,7 +1,6 @@
 ---
 - name: Chocolatey install multiple
   hosts: "{{ HOSTS | default('windows') }}"
-  gather_facts: false
   vars:
     choco_packages:
       - name: nodejs
