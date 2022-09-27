@@ -1,11 +1,11 @@
 ---
 - name: Install IIS
   hosts: all
-  gather_facts: false
-  vars:
-    iis_message: undef
-
   tasks:
+    - name: Print all available facts
+      ansible.builtin.debug:
+        var: ansible_facts
+
     - name: run win_ping
       win_ping:
 
