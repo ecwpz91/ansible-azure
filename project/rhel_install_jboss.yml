@@ -66,10 +66,6 @@
       ansible.builtin.systemd:
         daemon_reload: yes
 
-    - name: Workaround for systemd bug
-      shell: service jboss start && chkconfig jboss on
-      ignore_errors: yes
-
     - name: Make sure mta service unit is running
       ansible.builtin.systemd:
         state: started
