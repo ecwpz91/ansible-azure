@@ -101,3 +101,4 @@
         tags:
           deployment: ansible
           purpose: demo
+          os: linux
