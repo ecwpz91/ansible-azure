@@ -5,7 +5,7 @@
     http_proxy_port: 8080
     https_proxy_port: 8443
   tasks:
-    - name: Install Java 1.7 and some basic dependencies
+    - name: Install Java 1.8 and some basic dependencies
       yum: 
         name: "{{ item }}"
         state: present
