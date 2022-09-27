@@ -1,7 +1,6 @@
 ---
 - name: PowerShell DSC
   hosts: "{{ HOSTS | default('windows') }}"
-
   tasks:
   - name: Setup the SecurityPolicyDSC module
     community.windows.win_psmodule:
