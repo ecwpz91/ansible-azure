@@ -1,5 +1,5 @@
 ---
-- name: Install IIS
+- name: Install IIS and setup demo website
   hosts: "{{ HOSTS | default('windows') }}"
   vars:
     iis_message: undef
