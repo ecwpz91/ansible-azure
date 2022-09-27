@@ -57,11 +57,10 @@
         state: directory 
         recurse: yes
 
-    - name: Copy the init script
-      copy: 
-        src: ./files/jboss-as-standalone.sh 
-        dest: /etc/init.d/jboss 
-        mode: 0755
+    - name: Create a systemd unit file for migration toolkit
+      ansible.builtin.template:
+        src: ./templates/jboss.service.j2
+        dest: /lib/systemd/system/jjboss.service
 
     - name: Just force systemd to reread configs
       ansible.builtin.systemd:
@@ -71,11 +70,11 @@
       shell: service jboss start && chkconfig jboss on
       ignore_errors: yes
 
-    - name: Enable JBoss to be started at boot
-      service: 
-        name: jboss 
-        enabled: yes 
+    - name: Make sure mta service unit is running
+      ansible.builtin.systemd:
         state: started
+        name: jboss.service
+        enabled: yes
 
     - name: Start service firewalld, if not started
       ansible.builtin.service:
