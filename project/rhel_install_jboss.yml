@@ -63,7 +63,7 @@
       ansible.builtin.systemd:
         daemon_reload: yes
 
-    - name: Make sure mta service unit is running
+    - name: Make sure jboss service unit is running
       ansible.builtin.systemd:
         state: started
         name: jboss.service
@@ -74,13 +74,13 @@
         name: firewalld
         state: started
 
-    - name: permit traffic in default zone for http service
+    - name: Permit traffic in default zone for http service
       ansible.posix.firewalld:
         service: http
         permanent: yes
         state: enabled
 
-    - name: permit traffic in default zone for https service
+    - name: Permit traffic in default zone for https service
       ansible.posix.firewalld:
         service: https
         permanent: yes
