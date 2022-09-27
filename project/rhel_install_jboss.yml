@@ -36,7 +36,7 @@
 
     - name: Copying standalone.xml configuration file
       template: 
-        src: ./templates/standalone.xml 
+        src: ./templates/standalone.xml.j2
         dest: /usr/share/jboss-as/standalone/configuration/
 
     - name: Add group "jboss"
@@ -62,6 +62,10 @@
         src: ./files/jboss-as-standalone.sh 
         dest: /etc/init.d/jboss 
         mode: 0755
+
+    - name: Just force systemd to reread configs
+      ansible.builtin.systemd:
+        daemon_reload: yes
 
     - name: Workaround for systemd bug
       shell: service jboss start && chkconfig jboss on
