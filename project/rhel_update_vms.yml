@@ -1,5 +1,5 @@
 ---
-- name: Update Azure RHEL VMs with desired packages
+- name: Update RHEL VMs with desired packages
   hosts: "{{ HOSTS | default('rhel') }}"
   tasks:
     - name: Update installed packages
