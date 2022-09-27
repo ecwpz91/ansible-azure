@@ -53,8 +53,6 @@
       copy:
         src: /opt/wildfly/docs/contrib/scripts/systemd/wildfly.conf
         dest: /etc/wildfly/
-      delegate_to: localhost
-
 
     # - name: Workaround for systemd bug
     #   shell: service jboss start && chkconfig jboss on
