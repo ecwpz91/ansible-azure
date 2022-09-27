@@ -42,7 +42,7 @@
         per_host: false
       when: survey_public_ip
 
-    - name: Create Network Security Group that allows SSH and RDP
+    - name: Create Network Security Group that allows SSH, RDP, and HTTP/S
       azure.azcollection.azure_rm_securitygroup:
         resource_group: "{{ resource_group_name | default('demo') }}"
         name: "{{ network_sec_group_name }}"
