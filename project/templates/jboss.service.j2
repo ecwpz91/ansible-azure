@@ -1,0 +1,9 @@
+[Unit]
+Description=Launch JBoss application server.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/share/jboss-as/bin/standalone.sh
+
+[Install]
+WantedBy=multi-user.target
