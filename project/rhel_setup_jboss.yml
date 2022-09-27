@@ -31,7 +31,7 @@
 
     - name: Copying standalone.xml configuration file
       template: 
-        src: standalone.xml 
+        src: ./templates/standalone.xml 
         dest: /usr/share/jboss-as/standalone/configuration/
 
     - name: Add group "jboss"
