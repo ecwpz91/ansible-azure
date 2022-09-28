@@ -1,0 +1,121 @@
+---
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Create resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group_name | default('demo') }}"
+        location: "{{ region }}"
+
+    - name: Create virtual network
+      azure_rm_virtualnetwork:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        name: "{{ vnet_name }}"
+        address_prefixes: "{{ vnet_cidr }}"
+
+    - name: Add subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        name: "{{ subnet_name }}"
+        address_prefix: "{{ subnet_cidr }}"
+        virtual_network: "{{ vnet_name }}"
+
+    - name: Create public IP address
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        allocation_method: Static
+        name: "{{ win_public_ip_name }}"
+      register: output_ip_address
+      when: survey_public_ip
+
+    - name: Dump public IP for VM which will be created
+      debug:
+        msg: "The public IP is {{ output_ip_address.state.ip_address }}"
+      when: survey_public_ip
+
+    - name: Set Stat for Ansible Controller
+      set_stats:
+        data:
+          azure_vm_public_ip: "{{ output_ip_address.state.ip_address }}"
+        per_host: false
+      when: survey_public_ip
+
+    - name: Create Network Security Group that allows SSH, RDP, HTTP/S, and Powershell
+      azure_rm_securitygroup:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        name: "{{ network_sec_group_name }}"
+        rules:
+          - name: SSH
+            protocol: Tcp
+            destination_port_range: 22
+            access: Allow
+            priority: 1001
+            direction: Inbound
+          - name: RDP
+            protocol: Tcp
+            destination_port_range: 3389
+            access: Allow
+            priority: 1002
+            direction: Inbound
+          - name: 'WEB'
+            protocol: Tcp
+            destination_port_range:
+              - 80
+              - 443
+            access: Allow
+            priority: 1003
+            direction: Inbound
+          - name: 'POWERSHELL'
+            protocol: Tcp
+            destination_port_range: 
+              - 5985
+              - 5986
+            access: Allow
+            priority: 1004
+            direction: Inbound
+
+    - name: Create virtual network interface card
+      azure_rm_networkinterface:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        name: "{{ win_nic_name }}"
+        virtual_network: "{{ vnet_name }}"
+        subnet: "{{ subnet_name }}"
+        public_ip_name: "{{ win_public_ip_name }}"
+        security_group: "{{ network_sec_group_name }}"
+
+    - name: Create VM
+      azure_rm_virtualmachine:
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        name: "{{ win_vm_name | default('demo_win_vm') }}"
+        os_type: Windows
+        vm_size: "{{ win_vm_size }}"
+        admin_username: "{{ win_admin_user }}"
+        admin_password: "{{ win_admin_password }}"
+        network_interfaces: "{{ win_nic_name }}"
+        image:
+          offer: WindowsServer
+          publisher: MicrosoftWindowsServer
+          sku: "{{ win_vm_sku }}"
+          version: latest
+        tags:
+          deployment: ansible
+          purpose: demo
+          os: windows
+
+    - name: Create VM script extension to enable HTTPS WinRM listener
+      azure_rm_virtualmachineextension:
+        name: winrm-extension
+        resource_group: "{{ resource_group_name | default('demo') }}"
+        virtual_machine_name: "{{ win_vm_name | default('demo_win_vm') }}"
+        publisher: Microsoft.Compute
+        virtual_machine_extension_type: CustomScriptExtension
+        type_handler_version: '1.9'
+        settings: '{"fileUris": ["https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"],"commandToExecute": "powershell -ExecutionPolicy Unrestricted -File ConfigureRemotingForAnsible.ps1"}'
+        auto_upgrade_minor_version: true
+
+    - name: wait for the WinRM port to come online
+      wait_for:
+        port: 5986
+        host: "{{ output_ip_address.state.ip_address }}"
+        timeout: 600
