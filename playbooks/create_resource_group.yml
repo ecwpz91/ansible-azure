@@ -1,0 +1,9 @@
+---
+- name: Create Resource Group
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create azure rg
+      ansible.builtin.include_role:
+        name: ../roles/create_resource_group

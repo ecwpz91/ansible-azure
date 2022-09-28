@@ -1,0 +1,9 @@
+---
+- name: Create peer network
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create peer network
+      ansible.builtin.include_role:
+        name: ../roles/create_peer_network
