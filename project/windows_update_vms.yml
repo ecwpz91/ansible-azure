@@ -1,0 +1,11 @@
+---
+- name: Update Windows VMs with desired packages
+  hosts: "{{ HOSTS | default('windows') }}"
+  tasks:
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        category_names: "{{ categories | default('*') }}"
+        reboot: "{{ reboot_server | default('yes') }}"
+        accept_list: "{{ accept_packages | default(omit) }}"
+        reject_list: "{{ reject_packages | default(omit) }}"
+      register: patchresult
