@@ -1,7 +1,7 @@
 ---
 - name: Gather debug info
   hosts: "{{ HOSTS | default('rhel') }}"
-   tasks:
+  tasks:
     - name: Run rhel troubleshoot tasks
       ansible.builtin.include_role:
         name: ../roles/rhel_troubleshoot
