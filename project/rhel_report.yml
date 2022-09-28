@@ -25,7 +25,7 @@
 
     - name: copy CSS over
       ansible.builtin.copy:
-        src: "./files/css"
+        src: "css"
         dest: "{{ file_path }}"
         directory_mode: true
       check_mode: no
@@ -36,9 +36,9 @@
         dest: "{{ file_path }}"
         directory_mode: true
       loop:
-        - "./files/webpage_logo.png"
-        - "./files/redhat-ansible-logo.svg"
-        - "./files/server.png"
+        - "webpage_logo.png"
+        - "redhat-ansible-logo.svg"
+        - "server.png"
       check_mode: no
 
     - name: Make sure httpd service unit is running
