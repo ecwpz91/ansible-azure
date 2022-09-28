@@ -15,6 +15,7 @@
         - libselinux
         - libsemanage
         - firewalld
+        - httpd
 
     - name: Download and unarchive wildfly
       ansible.builtin.unarchive:
@@ -90,3 +91,12 @@
         service: https
         permanent: yes
         state: enabled
+
+    - name: Print the gateway for each host when defined
+      ansible.builtin.debug:
+        msg: System {{ inventory_hostname }}
+
+    # - name: Configure Apache port redirection
+    #   ansible.builtin.template:
+    #     src: ./templates/vhost.conf.j2
+    #     dest: /etc/httpd/conf.d/vhost.conf
