@@ -11,10 +11,4 @@
     Order allow,deny
     Allow from all
   </Location>
-  ProxyPass /console http://localhost:9990/console
-  ProxyPassReverse /console http://localhost:9990/console
-  <Location /console>
-    Order allow,deny
-    Allow from all
-  </Location>
 </VirtualHost>
