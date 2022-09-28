@@ -102,7 +102,7 @@
 
     - name: Configure Apache port redirection
       ansible.builtin.template:
-        src: ./templates/vhost.conf.j2
+        src: vhost.conf.j2
         dest: /etc/httpd/conf.d/vhost.conf
 
     - name: Run a configuration file syntax test for Apache
