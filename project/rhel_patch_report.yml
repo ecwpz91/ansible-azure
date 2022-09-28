@@ -59,10 +59,6 @@
         state: yes
         persistent: yes
 
-    - name: Wait for server to restart
-      reboot:
-        reboot_timeout: 3600
-
     - name: display link to inventory report
       ansible.builtin.debug:
         msg: "Please go to http://{{ hostvars[report_server]['ansible_host'] }}/reports/linux.html"
