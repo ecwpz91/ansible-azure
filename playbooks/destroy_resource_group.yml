@@ -1,0 +1,9 @@
+---
+- name: Destroy Demo Resources
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Destroy rg
+      ansible.builtin.include_role:
+        name: ../roles/destroy_resource_group
