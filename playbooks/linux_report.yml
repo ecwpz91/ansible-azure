@@ -1,3 +1,4 @@
+---
 - name: Run linux report
   hosts: "{{ HOSTS | default('rhel') }}"
   gather_facts: false
