@@ -92,9 +92,13 @@
         permanent: yes
         state: enabled
 
+    - name: Print hostname using command moduel
+      command: /usr/bin/hostname -f
+      register: fqdn_hostname_output
+
     - name: Print the gateway for each host when defined
       ansible.builtin.debug:
-        msg: System {{ ansible_nodename }}
+        msg: System {{ ansible_nodename }} and {{ fqdn_hostname_output..stdout }}
 
     # - name: Configure Apache port redirection
     #   ansible.builtin.template:
