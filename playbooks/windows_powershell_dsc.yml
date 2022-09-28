@@ -1,0 +1,7 @@
+---
+- name: PowerShell DSC
+  hosts: "{{ HOSTS | default('windows') }}"
+  tasks:
+    - name: Configure some host parameters
+      ansible.builtin.include_role:
+        name: ../roles/windows_powershell_dsc

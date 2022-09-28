@@ -1,0 +1,9 @@
+---
+- name: Install IIS and setup demo website
+  hosts: "{{ HOSTS | default('windows') }}"
+  vars:
+    iis_message: undef
+  tasks:
+    - name: Create demo website
+      ansible.builtin.include_role:
+        name: ../roles/windows_install_iis
