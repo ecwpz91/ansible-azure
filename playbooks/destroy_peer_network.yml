@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
-    tasks:
+  tasks:
     - name: Destroy network peering
       ansible.builtin.include_role:
         name: ../roles/destroy_peer_network
