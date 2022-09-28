@@ -92,15 +92,34 @@
         permanent: yes
         state: enabled
 
-    - name: Print hostname using command moduel
-      command: /usr/bin/hostname -f
-      register: fqdn_hostname_output
+    # - name: Print hostname using command moduel
+    #   command: /usr/bin/hostname -f
+    #   register: fqdn_hostname_output
 
-    - name: Print the gateway for each host when defined
-      ansible.builtin.debug:
-        msg: System {{ ansible_nodename }} and {{ fqdn_hostname_output..stdout }}
+    # - name: Print the gateway for each host when defined
+    #   ansible.builtin.debug:
+    #     msg: System {{ ansible_nodename }} and {{ fqdn_hostname_output..stdout }}
 
-    # - name: Configure Apache port redirection
-    #   ansible.builtin.template:
-    #     src: ./templates/vhost.conf.j2
-    #     dest: /etc/httpd/conf.d/vhost.conf
+    - name: Configure Apache port redirection
+      ansible.builtin.template:
+        src: ./templates/vhost.conf.j2
+        dest: /etc/httpd/conf.d/vhost.conf
+
+    - name: Run a configuration file syntax test for Apache
+      ansible.builtin.shell: /usr/sbin/apachectl configtest
+
+    - name: Make sure httpd service unit is running
+      ansible.builtin.systemd:
+        state: started
+        name: httpd.service
+        enabled: yes
+
+    - name: Set httpd_can_network_connect flag on and persist across reboots
+      ansible.posix.seboolean:
+        name: httpd_can_network_connect
+        state: yes
+        persistent: yes
+
+    - name: Wait for server to restart
+      reboot:
+        reboot_timeout: 3600
