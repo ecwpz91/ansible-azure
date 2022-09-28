@@ -1,0 +1,11 @@
+---
+# Demos creating a VM, launching an AAP job, and then destroying the VM.
+# This shows a basic example of an ephemeral workload on temporary VMs.
+- name: Create Azure VM to test demo repository
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Ephemeral workload test
+      ansible.builtin.include_role:
+        name: ../roles/emphemeral_workload_test
