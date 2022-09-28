@@ -1,0 +1,7 @@
+---
+- name: Update RHEL VMs with desired packages
+  hosts: "{{ HOSTS | default('rhel') }}"
+  tasks:
+    - name: Run update task
+      ansible.builtin.include_role:
+        name: ../roles/rhel_update_vms
