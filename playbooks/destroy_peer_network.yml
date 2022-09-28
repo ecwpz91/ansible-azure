@@ -1,0 +1,9 @@
+---
+- name: Destroy network peering demo
+  hosts: localhost
+  connection: local
+  gather_facts: false
+    tasks:
+    - name: Destroy network peering
+      ansible.builtin.include_role:
+        name: ../roles/destroy_peer_network
