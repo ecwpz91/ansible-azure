@@ -1,5 +1,5 @@
 ---
-- name: Update RHEL VMs with desired packages
+- name: Basic RHEL Report
   hosts: "{{ HOSTS | default('rhel') }}"
   vars:
     detailedreport: True
