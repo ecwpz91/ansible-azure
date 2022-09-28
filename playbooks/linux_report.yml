@@ -1,0 +1,7 @@
+- name: Run linux report
+  hosts: "{{ HOSTS | default('rhel') }}"
+  tasks:
+
+    - name: Begin to setup the linux report
+      ansible.builtin.include_role:
+        name: ../roles/linux_report
