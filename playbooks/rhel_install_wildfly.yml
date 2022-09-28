@@ -1,0 +1,10 @@
+---
+- name: Deploy Wildfly
+  hosts: "{{ HOSTS | default('rhel') }}"
+  vars:
+    http_proxy_port: 8080
+    https_proxy_port: 8443
+  tasks:
+    - name: Install Wildfly in standalone mode
+      ansible.builtin.include_role:
+        name: ../roles/rhel_install_wildfly
