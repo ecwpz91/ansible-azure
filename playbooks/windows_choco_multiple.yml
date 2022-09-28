@@ -1,0 +1,11 @@
+---
+- name: Chocolatey install multiple packages
+  hosts: "{{ HOSTS | default('windows') }}"
+  vars:
+    choco_packages:
+      - name: nodejs
+      - name: python
+  tasks:
+    - name: Run install packages task
+      ansible.builtin.include_role:
+        name: ../roles/windows_choco_multiple
