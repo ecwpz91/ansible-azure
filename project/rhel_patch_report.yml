@@ -5,11 +5,11 @@
     detailedreport: True
     file_path: /var/www/html/reports
   tasks:
-      - name: Install the latest version of Apache
-        ansible.builtin.dnf:
-          name:
-            - httpd
-          state: latest
+    - name: Install the latest version of Apache
+      ansible.builtin.dnf:
+        name:
+          - httpd
+        state: latest
 
     - name: Create a directory if it does not exist
       ansible.builtin.file:
