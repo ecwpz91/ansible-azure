@@ -1,7 +1,6 @@
 ---
 - name: Gather debug info
   hosts: "{{ HOSTS | default('rhel') }}"
-
   tasks:
     - name: Gather recent vmstat info
       command: /bin/vmstat 1 5
