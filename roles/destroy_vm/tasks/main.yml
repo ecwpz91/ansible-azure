@@ -1,0 +1,12 @@
+---
+- name: Get facts for one resource group including resources it contains
+  azure_rm_resourcegroup_info:
+    name: "{{ resource_group_name }}"
+    list_resources: yes
+  register: azure_facts
+
+- name: Delete VM
+  azure.azcollection.azure_rm_virtualmachine:
+    resource_group: "{{ resource_group_name }}"
+    name: "{{ vm_name }}"
+    state: absent

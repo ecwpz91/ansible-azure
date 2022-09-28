@@ -1,0 +1,9 @@
+---
+- name: Delete Azure RHEL VMs
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Destroy vm
+      ansible.builtin.include_role:
+        name: ../roles/destroy_vm
