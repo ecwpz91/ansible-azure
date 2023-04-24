@@ -1,6 +1,14 @@
 ---
 roles:
-  - name: redhatofficial.rhel7_stig
-    version: 0.1.61
+
+  - name: redhatofficial.rhel8_pci_dss
+    version: 0.1.66
+
   - name: redhatofficial.rhel8_stig
-    version: 0.1.60
+    version: 0.1.66
+
+  - name: redhatofficial.rhel8_cui
+    version: 0.1.66
+
+  - name: redhatofficial.rhel8_hipaa
+    version: 0.1.66
