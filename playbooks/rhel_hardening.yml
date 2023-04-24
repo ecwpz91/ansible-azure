@@ -38,12 +38,6 @@
       ansible.builtin.include_role:
         name: redhatofficial.rhel8_stig
 
-    - name: Install aide tool
-      when: harden_cui | bool
-      ansible.builtin.dnf:
-        name: aide
-        state: latest
-
     - name: Apply DISA STIG for Red Hat Enterprise Linux 8
       when: harden_cui | bool
       ansible.builtin.include_role:
