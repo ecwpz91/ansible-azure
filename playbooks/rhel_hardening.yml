@@ -1,7 +1,6 @@
 ---
-- name: Run linux report
+- name: Run RHEL hardening
   hosts: "{{ HOSTS | default('rhel') }}"
-  gather_facts: false
   become: true
   vars:
     harden_firewall: false
