@@ -8,6 +8,9 @@
     harden_time: false
     harden_ssh: false
     harden_pci: false
+    harden_stig: false
+    harden_cui: false
+    harden_hipaa: false
   tasks:
     - name: Configure Firewall
       when: harden_firewall | bool
@@ -29,3 +32,18 @@
       when: harden_pci | bool
       ansible.builtin.include_role:
         name: redhatofficial.rhel8_pci_dss
+
+    - name: Apply DISA STIG for Red Hat Enterprise Linux 8
+      when: harden_stig | bool
+      ansible.builtin.include_role:
+        name: redhatofficial.rhel8_stig
+
+    - name: Apply DISA STIG for Red Hat Enterprise Linux 8
+      when: harden_cui | bool
+      ansible.builtin.include_role:
+        name: redhatofficial.rhel8_cui
+
+    - name: Apply DISA STIG for Red Hat Enterprise Linux 8
+      when: harden_hipaa | bool
+      ansible.builtin.include_role:
+        name: redhatofficial.rhel8_hipaa
